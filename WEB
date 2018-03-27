@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- ______________________________________________________________________________HTML______________________________________________________________________________ -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Temperature</title>
+    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    /* Cette partie sert à changer les paramètres de style des éléments présents sur la page */   
+        h2 /* c'est un header */
+        {
+            color: #ffffff;
+        }
+        /* Styliser le gros titre */
+        .header {
+        background-image: url(https://img00.deviantart.net/41ea/i/2012/097/e/6/space_war_by_anarkrest-d4vdkw0.png);
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+        border: 8px solid #001f33;
+        letter-spacing: 3px;
+        }
+        body /* l'image de fond du body */
+        {
+            margin: 0;
+            background-image: url(https://www.openscience.fr/IMG/jpg/os_uzunidis_235135786-2.jpg);
+        }
+        /* "ul" et "li a" servent pour la barre de navigation*/
+        ul {
+            list-style-type: none;
+            margin: 0;
+            border-radius: 15px;
+            padding: 10px;
+            width: 200px;
+            border: 3px solid #404040;
+            background-color: #ffffff;
+        }
+
+        li a {
+            display: block;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        /* Change the link color on hover */
+        li a:hover {
+            background-color: #555;
+            color: white;
+        }
+        p.absolute4 {
+            position: absolute;
+            background: #fff2e6;
+            border-radius: 25px;
+            padding: 20px;
+            top: 530px;
+            left: 10px;
+            width: 170px;
+            height: 5000px;
+            border: 3px solid #404040;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<!--___________________________________________________________________ELEMENTS DU BODY (LE CORPS)______________________________________________________________-->
+
+<body>
+<div class="header">
+  <h1>Visualisation des donnees</h1>
+</div>
+
+<!-- Zone où on définit les boutons et leurs interactions. -->
+
+<h2 style= "font-size: 30px;">Barre de navigation</h2>
+
+<ul>
+  <li><a href="#home" onclick="document.getElementById('demo').innerHTML=AfficherTemperatureC">Afficher la température en degrés Celsius</a></li>
+  <li><a href="#home" onclick="document.getElementById('demo').innerHTML=AfficherTemperatureF">Afficher la température en degrés Fahrenheit</a></li>
+  <li><a href="#contact" onclick="document.getElementById('demo').innerHTML=AfficherTemperatureK">Afficher Rien</a></li>
+  <li><a href="#about" onclick="document.getElementById('demo').innerHTML=ContenuBDD">Afficher le contenu de la BDD</a></li>
+</ul>
+
+<!-- ce paragraphe correspond à la zone (de paramètres "absolute4") où on va afficher le contenu de ce qu'on veut -->
+<p id="demo" class="absolute4"></p>
+
+<!-- ___________________________________________________________________________JAVASCRIPT____________________________________________________________________________ -->
+
+<script type="text/javascript">
+
+//Définition des variables du Javascript
+var ContenuBDD = "";
+var NombreDeDonnéesDeA = 0;
+var NombreDeDonnéesDeB = 0;
+var AfficherTemperatureC = "";
+var AfficherTemperatureF = "";
+var AfficherTemperatureK = "";
+
+var requestURL = 'http://api.apixu.com/v1/history.json?key=49db082aac0344dda94101355181603&q=Paris&dt=2018-03-15';
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'text';
+    request.send();
+    request.onload = function() 
+    {
+      var variable = request.response;
+      var JsonObjMonContenu = JSON.parse(variable);
+      //document.getElementById("demo").innerHTML = "Température: " + JsonObjMonContenu.forecast.forecastday[0].day.avgtemp_c + " Degrés Celsius";
+      AfficherTemperatureC = "Température: " + JsonObjMonContenu.forecast.forecastday[0].day.avgtemp_c + " Degrés Celsius";
+      AfficherTemperatureF = "Température: " + JsonObjMonContenu.forecast.forecastday[0].day.avgtemp_f + " Fahrenheit";
+    }
+
+</script>
+</body>
+</html>
